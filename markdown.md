@@ -639,4 +639,4 @@ class: middle
 class: center, middle
 # Thank you!
 ## Questions?
-### https://zainab-ali.github.io/challenges-of-concurrent-systems
+### https://tomspencerlondon.github.io/debugging-concurrency/
