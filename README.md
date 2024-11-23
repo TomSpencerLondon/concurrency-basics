@@ -457,3 +457,166 @@ sequenceDiagram
   end
 
 ```
+
+When using `AtomicInteger` in your Java program, the bytecode changes in several significant ways compared to using a primitive `int`. The main differences arise from the thread-safe nature of `AtomicInteger` and its built-in atomic operations. Let’s break down the changes based on the bytecode you provided.
+
+### Key Differences Between `int` and `AtomicInteger` in the Bytecode
+
+#### **1. Type of the Field**
+- **Primitive `int`:** The `count` field in your initial example was of type `int`, a primitive type.
+- **`AtomicInteger`:** In the updated example, the field is now of type `AtomicInteger`, which is an object, not a primitive.
+
+Bytecode:
+
+- **Before (`int`):**
+  ```java
+  private int count;
+  ```
+
+- **After (`AtomicInteger`):**
+  ```java
+  private Ljava/util/concurrent/atomic/AtomicInteger; count;
+  ```
+
+The field is now an object reference (`L` denotes an object type in bytecode), pointing to an instance of `AtomicInteger`.
+
+#### **2. The `increment()` Method**
+In the original code, the `increment()` method directly modified the `count` field by adding 1. However, with `AtomicInteger`, we leverage the `incrementAndGet()` method, which is an atomic operation designed for thread-safe increments.
+
+##### **Without `AtomicInteger` (Primitive `int`):**
+```java
+increment()V
+ L0
+  LINENUMBER 7 L0
+  ALOAD 0
+  DUP
+  GETFIELD com/example/demo/Counter.count : I
+  ICONST_1
+  IADD
+  PUTFIELD com/example/demo/Counter.count : I
+ L1
+  LINENUMBER 8 L1
+  RETURN
+```
+
+##### **With `AtomicInteger` (`incrementAndGet()`):**
+```java
+synchronized increment()V
+ L0
+  LINENUMBER 9 L0
+  ALOAD 0
+  GETFIELD com/example/demo/Counter.count : Ljava/util/concurrent/atomic/AtomicInteger;
+  INVOKEVIRTUAL java/util/concurrent/atomic/AtomicInteger.incrementAndGet ()I
+  POP
+ L1
+  LINENUMBER 10 L1
+  RETURN
+```
+
+- **Explanation**:
+  - `GETFIELD` retrieves the `AtomicInteger` instance (`count` field).
+  - `INVOKEVIRTUAL java/util/concurrent/atomic/AtomicInteger.incrementAndGet ()I` calls the `incrementAndGet()` method of `AtomicInteger`. This is an atomic operation that increments the value and returns the new value.
+  - `POP` removes the result of `incrementAndGet()` from the stack since it's not used (the method doesn't need to return a value).
+
+In contrast to the primitive `int` approach (where the increment was manually done with `IADD`), the `AtomicInteger` method handles the increment safely across threads.
+
+#### **3. Synchronization**
+The `increment()` method is marked as `synchronized`, which ensures mutual exclusion. This is in contrast to the approach with `int`, where synchronization is not used.
+
+- **Before (`int`):**
+  No synchronization was applied to the `increment()` method, meaning multiple threads could modify the `count` field concurrently without synchronization.
+
+- **After (`AtomicInteger`):**
+  The method is explicitly synchronized, so only one thread can execute `increment()` at a time, ensuring that the `AtomicInteger` is accessed safely.
+
+The `synchronized` keyword ensures that even though `AtomicInteger` provides atomic operations, the actual method execution, including getting the field and calling the `incrementAndGet()` method, is done atomically with respect to other threads.
+
+#### **4. `getCount()` Method**
+The `getCount()` method retrieves the current value of `count`.
+
+##### **Without `AtomicInteger` (Primitive `int`):**
+```java
+getCount()I
+ L0
+  LINENUMBER 11 L0
+  ALOAD 0
+  GETFIELD com/example/demo/Counter.count : I
+  IRETURN
+```
+
+##### **With `AtomicInteger` (`get()`):**
+```java
+getCount()I
+ L0
+  LINENUMBER 13 L0
+  ALOAD 0
+  GETFIELD com/example/demo/Counter.count : Ljava/util/concurrent/atomic/AtomicInteger;
+  INVOKEVIRTUAL java/util/concurrent/atomic/AtomicInteger.get ()I
+  IRETURN
+```
+
+- **Explanation**:
+  - Instead of directly returning the `count` value (which is a primitive `int`), the method now calls `get()` on the `AtomicInteger` instance to retrieve the current value. The `get()` method of `AtomicInteger` is thread-safe and atomic, ensuring that the correct value is always returned even in multi-threaded environments.
+
+---
+
+### Summary of Changes in Bytecode:
+
+1. **Field Type**:
+  - The field `count` is now of type `AtomicInteger` instead of `int`, which requires reference-based operations rather than direct value manipulation.
+
+2. **Increment Method**:
+  - The `increment()` method now uses the `AtomicInteger.incrementAndGet()` method to atomically increment the value, compared to manually manipulating the `int` field with `IADD`.
+
+3. **Synchronization**:
+  - The `increment()` method is marked as `synchronized`, ensuring mutual exclusion. This could be seen as redundant when using `AtomicInteger` for thread-safe operations, but the synchronization ensures the method execution is atomic.
+
+4. **Get Method**:
+  - The `getCount()` method retrieves the value using `AtomicInteger.get()`, which is a thread-safe way of reading the value.
+
+In conclusion, using `AtomicInteger` simplifies the handling of concurrent access to shared variables because it provides atomic methods like `incrementAndGet()`. However, adding `synchronized` still ensures that the entire method is thread-safe, even if the atomicity of `AtomicInteger` already provides a level of thread safety for individual operations.
+
+```mermaid
+sequenceDiagram
+    participant T1 as Thread 1
+    participant T2 as Thread 2
+    participant Counter as Counter Object
+    participant AtomicInteger as AtomicInteger
+
+    T1->>Counter: Acquire lock (MONITORENTER)
+    Counter->>T1: Lock acquired
+
+    T1->>Counter: Call increment()
+    Counter->>AtomicInteger: ALOAD count (AtomicInteger)
+    AtomicInteger->>AtomicInteger: incrementAndGet()
+    AtomicInteger->>Counter: Return updated value
+    T1->>Counter: Release lock (MONITOREXIT)
+    Counter->>T1: Lock released
+
+    Note over T1, Counter: T1 completes execution
+
+    T2->>Counter: Acquire lock (MONITORENTER)
+    Counter->>T2: Lock acquired
+
+    T2->>Counter: Call increment()
+    Counter->>AtomicInteger: ALOAD count (AtomicInteger)
+    AtomicInteger->>AtomicInteger: incrementAndGet()
+    AtomicInteger->>Counter: Return updated value
+    T2->>Counter: Release lock (MONITOREXIT)
+    Counter->>T2: Lock released
+
+    Note over T2, Counter: T2 completes execution
+
+    alt Exception occurs during T1
+        T1->>Counter: Release lock (MONITOREXIT)
+        Counter->>T1: Lock released
+        T1->>JVM: Propagate exception (ATHROW)
+    end
+
+    alt Exception occurs during T2
+        T2->>Counter: Release lock (MONITOREXIT)
+        Counter->>T2: Lock released
+        T2->>JVM: Propagate exception (ATHROW)
+    end
+
+```
