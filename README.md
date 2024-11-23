@@ -411,3 +411,49 @@ sequenceDiagram
     end
 
 ```
+
+Two threads:
+```mermaid
+sequenceDiagram
+  participant T1 as Thread 1
+  participant T2 as Thread 2
+  participant Counter as Counter Object
+  participant JVM as JVM
+
+  T1->>Counter: Acquire lock (MONITORENTER)
+  Counter->>T1: Lock acquired
+
+  T1->>Counter: Read `count` (GETFIELD) -> Value
+  T1->>T1: Increment value (IADD)
+  T1->>Counter: Write back `count` (PUTFIELD)
+
+  T1->>Counter: Release lock (MONITOREXIT)
+  Counter->>T1: Lock released
+
+  Note over T1,Counter: T1 finishes execution normally
+
+  T2->>Counter: Acquire lock (MONITORENTER)
+  Counter->>T2: Lock acquired
+
+  T2->>Counter: Read `count` (GETFIELD) -> Value
+  T2->>T2: Increment value (IADD)
+  T2->>Counter: Write back `count` (PUTFIELD)
+
+  T2->>Counter: Release lock (MONITOREXIT)
+  Counter->>T2: Lock released
+
+  Note over T2,Counter: T2 finishes execution normally
+
+  alt Exception occurs during T1
+    T1->>Counter: Release lock (MONITOREXIT)
+    Counter->>T1: Lock released
+    T1->>JVM: Propagate exception (ATHROW)
+  end
+
+  alt Exception occurs during T2
+    T2->>Counter: Release lock (MONITOREXIT)
+    Counter->>T2: Lock released
+    T2->>JVM: Propagate exception (ATHROW)
+  end
+
+```
