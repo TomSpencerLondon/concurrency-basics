@@ -631,7 +631,7 @@ class: middle
  - Newsletter: [buttondown.email/zainab](https://buttondown.email/zainab)
  - Email: zainab@duskimpression.com
  - LinkedIn: [zainab-ali-fp](https://uk.linkedin.com/in/zainab-ali-fp)
- - GitHub: zainab-ali
+ - GitHub: tomspencerlondon
  - Discord: Scala
  - London Scala User Group: [meetup.com/london-scala](https://www.meetup.com/london-scala/)
 
