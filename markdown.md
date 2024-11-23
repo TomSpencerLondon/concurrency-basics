@@ -3,7 +3,7 @@ class: center, middle
 
 # Debugging Concurrency
 ## Tom Spencer
-### https://zainab-ali.github.io/challenges-of-concurrent-systems
+### https://tomspencerlondon.github.io/debugging-concurrency/
 
 ???
 ---
@@ -24,7 +24,7 @@ One morning, your manager comes up to you and gives you a task. She says, I need
 
 What sort? You ask.
 
-It's a counting service. It just needs one endpoint, to update a counter. And it's only for demo purposes.
+It's a vote counting service. It just needs one endpoint, to update a counter. And it's only for demo purposes.
 
 It's for our salesperson. He works on Fridays and he's showing off this new system.
 
@@ -48,7 +48,7 @@ Your sales team is having a great day. The whole company seems to be celebrating
 
 Except you. You're looking at the contract.
 
-Your service now needs to support thousands of users. It needs to be running all the time, even when you roll out new versions.
+Your service now needs to support millions of users for the US election. It needs to be running all the time, even when you roll out new versions.
 
 So while everyone else is celebrating, you're inside scratching your head wondering how on earth you're going to achieve it.
 
@@ -99,15 +99,15 @@ class: middle
 </div>
 
 ???
-I'm Zainab, I'm a functional programmer and trainer, and in particular I train people to build concurrent systems.
+I'm Tom Spencer, a software engineer and trainer, and in particular, I specialize in building concurrent systems.
 
-I love lots of functional languages, but in particular Scala. Scala is a great language for concurrent systems. 
+I enjoy working with a variety of languages, but I particularly like Java for its robust features, especially for building scalable and concurrent systems.
 
-Does anyone here use it? I'm your community rep. I also organize the London Scala User Group, a local meetup. And I'm a Scala ambassador, which means if you're interested in learning more about Scala, please come ask.
+Does anyone here use Java? I'm your community rep. I also contribute to and share knowledge on various tech platforms and blogs. If you're interested in discussing Java or any other concurrent systems technologies, feel free to reach out!
 
-I'm also passionate about open source. I contribute to and maintain concurrency related projects in the Typelevel ecosystem.
+I’m also passionate about open source. I contribute to projects related to microservices, distributed systems, and concurrency.
 
-That said, you don't need to know anything about Scala or Typelevel, or even want to learn. You're not here to learn how to use this ecosystem, but what makes it's good.
+That said, you don’t need to know anything specific about Java or open-source ecosystems to benefit from this talk. You're here to learn what makes concurrent systems work effectively and efficiently.
 
 ---
 class: middle
