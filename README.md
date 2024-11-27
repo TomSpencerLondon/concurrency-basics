@@ -1645,3 +1645,10 @@ Race conditions are a fundamental challenge in concurrent programming, but with 
 - Optimize performance by breaking down locks and using modern concurrency utilities.
 
 Mastering these concepts will help you build safe, scalable, and efficient Java applications.
+
+
+### Accessing the heap at the same time
+![image](https://github.com/user-attachments/assets/8ddebd42-0578-4df5-b50f-4c1a0b332618)
+
+One update is now missing because each thread has updated the heap object at the same time
+![image](https://github.com/user-attachments/assets/0394625c-44bc-46d5-b77f-7a5a67f15ad0)
