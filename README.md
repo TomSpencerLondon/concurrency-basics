@@ -1652,3 +1652,37 @@ Mastering these concepts will help you build safe, scalable, and efficient Java 
 
 One update is now missing because each thread has updated the heap object at the same time
 ![image](https://github.com/user-attachments/assets/0394625c-44bc-46d5-b77f-7a5a67f15ad0)
+
+### Update visibility
+![image](https://github.com/user-attachments/assets/8fc789cf-3052-45db-82dd-f6adc1ec1919)
+also use volatile + synchronized to counter this problem
+
+### Cache
+![image](https://github.com/user-attachments/assets/f2a09ed9-5807-43df-8f73-246ca6ea9ae7)
+cache can enable writes to be seen earlier by other CPUs. We don't have a guarantee of when register values will be written to the cache.
+
+In order to be sure to avoid race conditions updates should be atomic using synchronized blocks, volatile or AtomicInteger etc.
+
+### Single Tasking
+![image](https://github.com/user-attachments/assets/2080ffce-0e54-44af-b9ad-6cc5e0643258)
+
+### multi tasking
+![image](https://github.com/user-attachments/assets/482d57ab-7f3c-46e1-84bc-e920f977ec43)
+
+![image](https://github.com/user-attachments/assets/57540275-da6f-4fcd-868b-9a348a40c307)
+
+![image](https://github.com/user-attachments/assets/3477061d-465b-43f1-96da-6a93cb27ae46)
+
+![image](https://github.com/user-attachments/assets/92f2b23c-07a6-41d9-8d37-7c393968c1d6)
+
+![image](https://github.com/user-attachments/assets/a5b4dc3a-f935-4de0-9bc7-c1763b0f4b81)
+
+### Better application responsiveness
+![image](https://github.com/user-attachments/assets/884e224d-cfc3-4423-b23c-e0b06ec83efa)
+
+![image](https://github.com/user-attachments/assets/8e13cca5-b67d-495b-aabf-6cb2d6722c4d)
+
+Nice quote
+A Java thread is like a virtual CPU that can execute your code inside your Java application
+![image](https://github.com/user-attachments/assets/281ce9a4-e36c-4474-af35-7ac19744f6d2)
+
