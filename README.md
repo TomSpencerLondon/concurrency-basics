@@ -1690,3 +1690,29 @@ A Java thread is like a virtual CPU that can execute your code inside your Java 
 ![image](https://github.com/user-attachments/assets/565ba04b-1902-4e01-972f-643a37738948)
 
 ![image](https://github.com/user-attachments/assets/c354199e-a127-489c-9847-8186cbf6525d)
+
+
+### Atomic Versus Volatile
+https://www.youtube.com/watch?v=31s_DzrkqZc
+
+Atomic want a single unit to be able to do some work such as a thread reading or writing to a variable.
+Volatile means expose visibility of changes to a value to different threads.
+
+Volatile is a way of ensuring the JVM reads values from the heap as opposed to its local CPU thread cache.
+
+This keyword does not ensure writes happen at particular times.
+AtomicInteger ensures that writes to shared variables are threadsafe.
+
+AtomicInteger is an object reference and we are not changing the value of the reference just the data underneath we don't
+need volatile - we could use final. Final means immutable - immutability is the preference in concurrency because we only 
+have to worry about data that is mutable with concurrency. The final keyword is better for object reference. If we were to 
+make an object reference volatile that would mean we must be changing the object reference itself not the data that the object
+reference points to.
+
+### Semaphores in Java
+https://www.youtube.com/watch?v=g19pjkJyGEU
+
+A semaphore is the way to control the nubmer of threads that are going to access certain shared resource concurrently.
+This is different from locks because with a lock you have a thread that waits for a lock gets it and then releases it when it's done.
+With a semaphore the concept of actually locking a singular resource is decoupled from the number of resources that you are
+trying to gain access to.
