@@ -1686,3 +1686,7 @@ Nice quote
 A Java thread is like a virtual CPU that can execute your code inside your Java application
 ![image](https://github.com/user-attachments/assets/281ce9a4-e36c-4474-af35-7ac19744f6d2)
 
+
+![image](https://github.com/user-attachments/assets/565ba04b-1902-4e01-972f-643a37738948)
+
+![image](https://github.com/user-attachments/assets/c354199e-a127-489c-9847-8186cbf6525d)
