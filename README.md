@@ -1716,3 +1716,6 @@ A semaphore is the way to control the nubmer of threads that are going to access
 This is different from locks because with a lock you have a thread that waits for a lock gets it and then releases it when it's done.
 With a semaphore the concept of actually locking a singular resource is decoupled from the number of resources that you are
 trying to gain access to.
+
+### Volatile to memory diagram
+![image](https://github.com/user-attachments/assets/5333af84-26ca-4a8b-8810-48435a9389b7)
