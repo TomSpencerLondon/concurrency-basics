@@ -1748,5 +1748,19 @@ The disadvantage of fairness is that it can introduce some overhead because the 
 3. Synchronized blocks are always reentrant. Lock could decide not to be.
 4. Synchronized blocks do not guarantee fairness. Locks can.
 
+```java
 
+    public void addVote(Vote vote) {
+
+        try {
+            lock.lock();
+            proposals.stream()
+                    .filter(p -> p.getId().equals(vote.getProposalId()))
+                    .findFirst()
+                    .ifPresent(Proposal::incrementVoteCount);
+        } finally {
+            lock.unlock();
+        }
+    }
+```
 
