@@ -1764,3 +1764,34 @@ The disadvantage of fairness is that it can introduce some overhead because the 
     }
 ```
 
+### Deadlock
+
+![image](https://github.com/user-attachments/assets/be42b95d-1fcd-44d1-93c2-37c6e86bddfd)
+
+First thread one locks and thread 2 locks bottom. If Thread 1 and Thread 2 try the other's lock this will lead to a deadlock.
+
+![image](https://github.com/user-attachments/assets/bf46c85a-6dd2-4d9f-97e1-8ddf787a7797)
+
+Other examples of threads blocking indefinitely:
+- Livelock (trying to resolve the deadlock indefinitely)
+- Nested monitor lockout
+- reentrance lockout
+- starvation
+
+
+### Deadlock prevention and detection
+- Lock reordering (quite simple ensure threads lock in the same order)
+- timeout backoff (thread attempting to take lock times out and backs off lock attempting and other locks it has initiated)
+- deadlock detection (detect deadlock before locking)
+
+#### Detecting deadlocks
+
+![image](https://github.com/user-attachments/assets/6b8db8ab-c08f-46af-a19d-1721c81373c7)
+
+### Producer consumer pattern
+![image](https://github.com/user-attachments/assets/4b8cbde7-adf0-4388-b30c-224c8c43f668)
+
+The producer consumer pattern is a workload distribution pattern where the number of work executing threads is decoupled
+from the number of tasks these worker threads are to execute.
+
+
