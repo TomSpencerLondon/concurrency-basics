@@ -1719,3 +1719,34 @@ trying to gain access to.
 
 ### Volatile to memory diagram
 ![image](https://github.com/user-attachments/assets/5333af84-26ca-4a8b-8810-48435a9389b7)
+
+### Guarantee fairness:
+![image](https://github.com/user-attachments/assets/ae106e93-3eb9-4544-8d89-e3fb101028da)
+
+```java
+import java.util.concurrent.locks.ReentrantLock;
+
+public class LockExample {
+  public static void main(String[] args) {
+    Lock lock = new ReentrantLock(true);
+
+    lock.lock();
+
+    lock.unlock();
+  }
+}
+```
+
+true (Fair lock): When the fairness parameter is set to true, the lock ensures that the longest-waiting thread will acquire the lock first. This means that threads will acquire the lock in the order in which they requested it, providing fairness among competing threads.
+
+Fairness ensures that threads will not starve and will get a chance to acquire the lock if they are waiting for a long time.
+The disadvantage of fairness is that it can introduce some overhead because the lock needs to track the order in which threads requested it.
+
+### Differences between synchronized and locks
+1. Synchronized must be contained within a single method. lock.lock() and lock.unlock() can be called from different methods.
+2. lock.lock() and lock.unlock() provides the same visibility and happens before guarantees as entering and exiting a synchronized block
+3. Synchronized blocks are always reentrant. Lock could decide not to be.
+4. Synchronized blocks do not guarantee fairness. Locks can.
+
+
+
