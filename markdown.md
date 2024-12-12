@@ -23,20 +23,11 @@ class: center, middle
 We will look at the code for the application.
 ---
 
-# Proposal class before synchronization.
-
 ```java
 public class Proposal {
     private static final Logger logger = LoggerFactory.getLogger(Proposal.class);
-
-    private final String id;
-    private final String description;
+    
     private int voteCount;
-
-    public Proposal(String id, String description) {
-        this.id = id;
-        this.description = description;
-    }
 
     public void incrementVoteCount() {
         int before = voteCount;
@@ -44,14 +35,6 @@ public class Proposal {
         int after = voteCount;
 
         logger.info("Before count: " + before + " After count: " + after);
-    }
-
-    public int getVoteCount() {
-        return voteCount;
-    }
-
-    public String getId() {
-        return id;
     }
 }
 ```
