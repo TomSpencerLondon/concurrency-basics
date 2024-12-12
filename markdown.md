@@ -224,6 +224,8 @@ Share nothing, horizontally partition 12 factor app processes
 class: center, middle
 
 # Key Takeaways
+
+???
 - Simple increment with threads can cause race conditions
 - Synchronization ensures atomic operations on shared mutable state
 ---
