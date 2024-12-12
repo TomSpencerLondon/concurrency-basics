@@ -191,6 +191,8 @@ The incrementAndGet() method in Java's AtomicInteger is implemented using CAS un
 
 - **Use Case**: CAS is the foundation of non-blocking algorithms and is widely used in Java classes like `AtomicInteger` for thread-safe operations without locks.
 ---
+class: center, middle
+
 # Other Concurrency Solutions
 
 ???
