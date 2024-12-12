@@ -120,9 +120,7 @@ public class RaceConditionDetector {
         String logFilePath = "/Users/tspencer/Desktop/websockets/spring-websockets.log";
         Pattern pattern = Pattern.compile("Before count:\\s*(\\d+) After count:\\s*(\\d+)");
         BufferedReader reader = new BufferedReader(new FileReader(logFilePath));
-
         Map<Integer, List<String>> afterLinesMap = new HashMap<>();
-
         reader.lines().forEach(line -> {
             Matcher m = pattern.matcher(line);
             if (m.find()) {
@@ -130,22 +128,15 @@ public class RaceConditionDetector {
                 afterLinesMap.computeIfAbsent(after, k -> new ArrayList<>()).add(line);
             }
         });
-
         reader.close();
-
-        boolean foundIssue = false;
+        
         for (Map.Entry<Integer, List<String>> entry : afterLinesMap.entrySet()) {
             if (entry.getValue().size() > 1) {
-                foundIssue = true;
                 System.out.println("Suspicious duplicate After count: " + entry.getKey());
                 for (String suspiciousLine : entry.getValue()) {
                     System.out.println(" - " + suspiciousLine);
                 }
             }
-        }
-
-        if (!foundIssue) {
-            System.out.println("No duplicate After counts found.");
         }
     }
 }
