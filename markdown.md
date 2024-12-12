@@ -170,12 +170,14 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 - CPU 1 do add not do put
 - CPU 2 do get operation on the same memory address
 ---
-# Atomic Integer Bytecode
-```
-    GETFIELD com/example/demo/Proposal.voteCount : Ljava/util/concurrent/atomic/AtomicInteger;
-    INVOKEVIRTUAL java/util/concurrent/atomic/AtomicInteger.incrementAndGet ()I
-    POP
-```
+<div class="side-by-side" style="display: flex;justify-content: space-evenly;">
+<div style="display: flex;flex-direction: column;align-items: center;">
+<h2>Compare and Swap</h2>
+<img width="810" alt="compare-and-swap" src="https://github.com/user-attachments/assets/e15433c7-4bff-4854-a97e-f626658f2908" width="700">
+
+</div>
+</div>
+
 ???
 Thread-Safety
 AtomicInteger: The incrementAndGet() method in AtomicInteger is implemented using atomic hardware-level instructions 
