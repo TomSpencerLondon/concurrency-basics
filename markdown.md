@@ -78,7 +78,8 @@ public class ProposalServiceTest {
 
 # Failing Test
 ```bash
-org.opentest4j.AssertionFailedError: Votes should be 1000 after concurrent voting ==> 
+org.opentest4j.AssertionFailedError: Votes should be 1000 
+after concurrent voting
 Expected :1000
 Actual   :985
 ```
@@ -86,12 +87,18 @@ Actual   :985
 
 # Thread output
 ```bash
-11:47:09.730 [pool-1-thread-60] INFO com.example.demo.Proposal -- Before count: 2 After count: 3
-11:47:09.730 [pool-1-thread-31] INFO com.example.demo.Proposal -- Before count: 97 After count: 98
-11:47:09.730 [pool-1-thread-43] INFO com.example.demo.Proposal -- Before count: 47 After count: 48
-11:47:09.730 [pool-1-thread-70] INFO com.example.demo.Proposal -- Before count: 71 After count: 72
-11:47:09.730 [pool-1-thread-50] INFO com.example.demo.Proposal -- Before count: 83 After count: 84
-11:47:09.730 [pool-1-thread-30] INFO com.example.demo.Proposal -- Before count: 8 After count: 9
+11:47:09.730 [pool-1-thread-60] INFO com.example.demo.Proposal 
+-- Before count: 2 After count: 3
+11:47:09.730 [pool-1-thread-31] INFO com.example.demo.Proposal 
+-- Before count: 97 After count: 98
+11:47:09.730 [pool-1-thread-43] INFO com.example.demo.Proposal 
+-- Before count: 47 After count: 48
+11:47:09.730 [pool-1-thread-70] INFO com.example.demo.Proposal 
+-- Before count: 71 After count: 72
+11:47:09.730 [pool-1-thread-50] INFO com.example.demo.Proposal 
+-- Before count: 83 After count: 84
+11:47:09.730 [pool-1-thread-30] INFO com.example.demo.Proposal 
+-- Before count: 8 After count: 9
 ```
 ---
 class: center, middle
@@ -124,11 +131,15 @@ class: center, middle
 # Output for Race Condition Detector
 ```bash
 Suspicious duplicate After count: 80
- - 11:47:09.730 [pool-1-thread-89] INFO com.example.demo.Proposal -- Before count: 79 After count: 80
- - 11:47:09.730 [pool-1-thread-74] INFO com.example.demo.Proposal -- Before count: 79 After count: 80
+11:47:09.730 [pool-1-thread-89] INFO com.example.demo.Proposal 
+ -- Before count: 79 After count: 80
+11:47:09.730 [pool-1-thread-74] INFO com.example.demo.Proposal 
+-- Before count: 79 After count: 80
 Suspicious duplicate After count: 213
- - 11:47:10.002 [pool-1-thread-60] INFO com.example.demo.Proposal -- Before count: 212 After count: 213
- - 11:47:10.002 [pool-1-thread-9] INFO com.example.demo.Proposal -- Before count: 212 After count: 213
+11:47:10.002 [pool-1-thread-60] INFO com.example.demo.Proposal 
+-- Before count: 212 After count: 213
+11:47:10.002 [pool-1-thread-9] INFO com.example.demo.Proposal 
+-- Before count: 212 After count: 213
 ```
 ---
 
