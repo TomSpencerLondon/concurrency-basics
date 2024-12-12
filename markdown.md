@@ -75,13 +75,11 @@ The challenge of scale is the challenge of concurrency.
 
 You don't always need to care about it.
 
-If you're writing an admin script for yourself or your team, you definitely don't need to.
-
 If you're writing a system for ten internal users, you do need to think about concurrency, but not too much.
 
-But for a lot of systems, handling concurrency is vital. If not at the beginning, then at least when they're successful.
+But for a lot of systems, handling concurrency is important. If not at the beginning, then at least when they have several users.
 
-It can be useful to understand concurrency with simple projects before meeting these issues in production
+It can be useful to understand concurrency with simple projects before meeting concurrency issues in production
 
 
 ---
