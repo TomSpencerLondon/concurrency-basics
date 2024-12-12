@@ -81,7 +81,7 @@ If you're writing a system for ten internal users, you do need to think about co
 
 But for a lot of systems, handling concurrency is vital. If not at the beginning, then at least when they're successful.
 
-Concurrency is challenging, but it doesn't have to be.
+It can be useful to understand concurrency with simple projects before meeting these issues in production
 
 
 ---
