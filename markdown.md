@@ -208,13 +208,13 @@ class: center, middle
 - IV Backing Services (I should be counting the votes in a database)
 - VI Processes should be stateless
 - VII Concurrency should be reliable
-Share nothing, horizontally partitionable 12 factor app processes
+Share nothing, horizontally partition 12 factor app processes
 
 ---
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
 <h2>Visualizing Concurrency</h2>
-<img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418">
+<img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418" width="700">
 </div>
 </div>
 ???
