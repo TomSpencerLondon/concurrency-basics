@@ -167,11 +167,8 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 class: center, middle
 
 # Key Takeaways
-- Even a simple increment can cause race conditions when multiple threads are involved.
-- Synchronization ensures atomic operations on shared mutable state.
-- Understanding this at a small scale prepares us for more complex concurrency challenges.
-  ???
-
+- Simple increment with threads can cause race conditions
+- Synchronization ensures atomic operations on shared mutable state
 ---
 
 class: center, middle
