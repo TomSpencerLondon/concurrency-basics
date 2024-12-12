@@ -140,7 +140,6 @@ Suspicious duplicate After count: 213
  - 11:47:10.002 [pool-1-thread-9] INFO com.example.demo.Proposal -- Before count: 212 After count: 213
 ```
 ---
-class: center, middle
 
 # Making it Thread-Safe
 
