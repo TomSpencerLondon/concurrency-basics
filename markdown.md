@@ -153,11 +153,58 @@ public synchronized void incrementVoteCount() {
     logger.info("Before count: " + before + " After count: " + after);
 }
 ```
-
+???
 By marking the method as `synchronized`, we ensure that only one thread can increment the count at a time, preventing lost updates.
 
 ---
+# Primitive Bytecode
+```byte
+    GETFIELD com/example/demo/Proposal.voteCount : I
+    ICONST_1
+    IADD
+    PUTFIELD com/example/demo/Proposal.voteCount : I
+```
+???
+- Three separate operations get, add and put
+- Bad because two CPU cores would execute these in parallel
+- CPU 1 do add not do put
+- CPU 2 do get operation on the same memory address
+---
+# Atomic Integer Bytecode
+```
+    GETFIELD com/example/demo/Proposal.voteCount : Ljava/util/concurrent/atomic/AtomicInteger;
+    INVOKEVIRTUAL java/util/concurrent/atomic/AtomicInteger.incrementAndGet ()I
+    POP
+```
+???
+Thread-Safety
+AtomicInteger: The incrementAndGet() method in AtomicInteger is implemented using atomic hardware-level instructions 
+such as Compare-And-Swap (CAS). 
+These ensure that the increment operation is performed as an atomic unit even in a 
+multi-threaded environment.
+
+Mechanism:
+The incrementAndGet() method in Java's AtomicInteger is implemented using CAS under the hood.
+- **Atomic Operation**: CAS (Compare-And-Swap) is a hardware-level atomic instruction that ensures thread-safe updates to a shared variable without using locks.
+
+- **Mechanism**: CAS compares the current value of a variable with an expected value; if they match, it updates the variable to a new value atomically. Otherwise, no change is made.
+
+- **Use Case**: CAS is the foundation of non-blocking algorithms and is widely used in Java classes like `AtomicInteger` for thread-safe operations without locks.
+---
 # Other Concurrency Solutions
+
+???
+- AtomicInteger - variable ++ compiles to get memory  
+- Synchronized
+- Cyclic Barriers
+---
+# 12 Factor App
+
+???
+- IV Backing Services (I should be counting the votes in a database)
+- VI Processes should be stateless
+- VII Concurrency should be reliable
+Share nothing, horizontally partitionable 12 factor app processes
 
 ---
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
