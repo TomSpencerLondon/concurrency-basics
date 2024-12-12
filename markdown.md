@@ -1,13 +1,13 @@
 class: center, middle
 
-# Exploring Concurrency in a Simple Voting Service
+# Debugging Concurrency
 
 ???
 Debugging concurrency in simple applications can help us understand this topic before we meet these issues in production.
 ---
 class: middle
 
-# The Scenario
+# Simple Voting Service
 
 ???
 We introduce a simple voting scenario: we have proposals, and we increment a vote count each time someone votes.
@@ -16,13 +16,14 @@ We introduce a simple voting scenario: we have proposals, and we increment a vot
 - When multiple users vote at the same time, we want to ensure that the final vote count is correct
 - We want the user to see the real count as it is updated
 ---
-
 class: middle
 
 # The Code Example
 ???
 We will look at the code for the application.
 ---
+class: middle
+
 # Proposal class before synchronization.
 
 ```java
@@ -57,7 +58,6 @@ public class Proposal {
 ```
 
 ---
-
 class: middle
 
 # The Problem
@@ -70,12 +70,13 @@ class: middle
 - Result: lost votes.
 
 ---
-
 class: middle
 
 # The Test Revealing the Issue
 
-???
+---
+class: middle
+
 # Concurrent Test reveals the issue
 - We save the logs to
 
@@ -103,6 +104,8 @@ public void testConcurrentVoting() throws InterruptedException {
 }
 ```
 ---
+class: middle
+
 # Failing Test
 ```bash
 org.opentest4j.AssertionFailedError: Votes should be 1000 after concurrent voting ==> 
@@ -110,6 +113,8 @@ Expected :1000
 Actual   :985
 ```
 --- 
+class: middle
+
 # Thread output
 ```bash
 11:47:09.730 [pool-1-thread-60] INFO com.example.demo.Proposal -- Before count: 2 After count: 3
@@ -120,12 +125,15 @@ Actual   :985
 11:47:09.730 [pool-1-thread-30] INFO com.example.demo.Proposal -- Before count: 8 After count: 9
 ```
 ---
+class: middle
+
 # Detect duplicate counts
 - Parse each log line to find the Before count: X and After count: Y.
 - Keep track of which After values have been seen and on which line they occurred.
 - If we see the same After value more than once, print out those lines as suspicious.
 ---
----
+class: middle
+
 # Race Condition Detector Code
 ```java
 public class RaceConditionDetector {
@@ -164,6 +172,8 @@ public class RaceConditionDetector {
 }
 ```
 ---
+class: middle
+
 # Output for Race Condition Detector
 ```bash
 Suspicious duplicate After count: 80
@@ -178,10 +188,6 @@ class: middle
 
 # Making it Thread-Safe
 
-???
-We add `synchronized` to fix the issue.
-???
-
 ```java
 public synchronized void incrementVoteCount() {
     int before = voteCount;
@@ -195,7 +201,6 @@ public synchronized void incrementVoteCount() {
 By marking the method as `synchronized`, we ensure that only one thread can increment the count at a time, preventing lost updates.
 
 ---
-
 class: middle
 
 # Visualizing Concurrency
@@ -209,7 +214,6 @@ class: middle
 ???
 Multiple threads can now interleave their operations.
 ---
-
 class: middle
 
 # Key Takeaways
