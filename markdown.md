@@ -106,9 +106,10 @@ Actual   :985
 class: center, middle
 
 # Detect duplicate counts
-- Parse each log line to find the Before count: X and After count: Y.
-- Keep track of which "After" values have been seen + line occurred.
-- Same "After" value more than once ==> print suspicious lines
+???
+* Parse each log line to find the Before count: X and After count: Y
+* Keep track of which "After" values have been seen + line occurred
+* Same "After" value more than once ==> print suspicious lines
 ---
 
 # Race Condition Detector Code
