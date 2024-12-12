@@ -106,7 +106,7 @@ public void testConcurrentVoting() throws InterruptedException {
 ---
 
 # Failing Test
-```bash
+```
 org.opentest4j.AssertionFailedError: Votes should be 1000 after concurrent voting ==> 
 Expected :1000
 Actual   :985
@@ -114,7 +114,7 @@ Actual   :985
 ---
 
 # Thread output
-```bash
+```
 11:47:09.730 [pool-1-thread-60] INFO com.example.demo.Proposal -- Before count: 2 After count: 3
 11:47:09.730 [pool-1-thread-31] INFO com.example.demo.Proposal -- Before count: 97 After count: 98
 11:47:09.730 [pool-1-thread-43] INFO com.example.demo.Proposal -- Before count: 47 After count: 48
