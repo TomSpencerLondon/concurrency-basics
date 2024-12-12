@@ -115,19 +115,6 @@ class: center, middle
 ```java
 public class RaceConditionDetector {
     public static void main(String[] args) throws Exception {
-        String logFilePath = "/Users/tspencer/Desktop/websockets/spring-websockets.log";
-        Pattern pattern = Pattern.compile("Before count:\\s*(\\d+) After count:\\s*(\\d+)");
-        BufferedReader reader = new BufferedReader(new FileReader(logFilePath));
-        Map<Integer, List<String>> afterLinesMap = new HashMap<>();
-        reader.lines().forEach(line -> {
-            Matcher m = pattern.matcher(line);
-            if (m.find()) {
-                int after = Integer.parseInt(m.group(2));
-                afterLinesMap.computeIfAbsent(after, k -> new ArrayList<>()).add(line);
-            }
-        });
-        reader.close();
-        
         for (Map.Entry<Integer, List<String>> entry : afterLinesMap.entrySet()) {
             if (entry.getValue().size() > 1) {
                 System.out.println("Suspicious duplicate After count: " + entry.getKey());
