@@ -173,7 +173,7 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
 <h2>Compare and Swap</h2>
-<img width="810" alt="compare-and-swap" src="https://github.com/user-attachments/assets/e15433c7-4bff-4854-a97e-f626658f2908" width="700">
+<img width="810" alt="compare-and-swap" src="https://github.com/user-attachments/assets/e15433c7-4bff-4854-a97e-f626658f2908" width="500">
 
 </div>
 </div>
