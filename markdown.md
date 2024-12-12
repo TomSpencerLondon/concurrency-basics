@@ -22,7 +22,6 @@ class: center, middle
 ???
 We will look at the code for the application.
 ---
-class: center, middle
 
 # Proposal class before synchronization.
 
@@ -75,10 +74,8 @@ class: center, middle
 # The Test Revealing the Issue
 
 ---
-class: center, middle
 
 # Concurrent Test reveals the issue
-- We save the logs to
 
 ```java
 @Test
@@ -130,7 +127,6 @@ class: center, middle
 - Keep track of which "After" values have been seen + line occurred.
 - Same "After" value more than once ==> print suspicious lines
 ---
-class: center, middle
 
 # Race Condition Detector Code
 ```java
