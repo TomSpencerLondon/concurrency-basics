@@ -11,7 +11,8 @@ class: middle
 
 # Demo Voting application
  - A webservice with websockets
- - Voters can vote on proposals in real time
+ - Voters can vote on proposals 
+ - real time updates
 ???
 Let's set the scene.
 
