@@ -104,7 +104,6 @@ public void testConcurrentVoting() throws InterruptedException {
 }
 ```
 ---
-class: center, middle
 
 # Failing Test
 ```bash
@@ -112,8 +111,7 @@ org.opentest4j.AssertionFailedError: Votes should be 1000 after concurrent votin
 Expected :1000
 Actual   :985
 ```
---- 
-class: center, middle
+---
 
 # Thread output
 ```bash
@@ -129,8 +127,8 @@ class: center, middle
 
 # Detect duplicate counts
 - Parse each log line to find the Before count: X and After count: Y.
-- Keep track of which After values have been seen and on which line they occurred.
-- If we see the same After value more than once, print out those lines as suspicious.
+- Keep track of which "After" values have been seen + line occurred.
+- Same "After" value more than once ==> print suspicious lines
 ---
 class: center, middle
 
