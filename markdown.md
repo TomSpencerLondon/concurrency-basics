@@ -156,18 +156,13 @@ public synchronized void incrementVoteCount() {
 By marking the method as `synchronized`, we ensure that only one thread can increment the count at a time, preventing lost updates.
 
 ---
-class: center, middle
-
-# Visualizing Concurrency
-
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
-<h2>Multiple Threads</h2>
+<h2>Visualizing Concurrency</h2>
 <img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418" width="300">
 </div>
 </div>
 ???
-Multiple threads can now interleave their operations.
 ---
 class: center, middle
 
