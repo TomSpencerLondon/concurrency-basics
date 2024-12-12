@@ -193,6 +193,10 @@ The incrementAndGet() method in Java's AtomicInteger is implemented using CAS un
 - **Mechanism**: CAS compares the current value of a variable with an expected value; if they match, it updates the variable to a new value atomically. Otherwise, no change is made.
 
 - **Use Case**: CAS is the foundation of non-blocking algorithms and is widely used in Java classes like `AtomicInteger` for thread-safe operations without locks.
+
+Advantage:
+- atomic operation
+- no explicit locks required
 ---
 class: center, middle
 
