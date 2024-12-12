@@ -9,10 +9,9 @@ class: center, middle
 ---
 class: middle
 
-# It's just a demo
- - A webservice
- - One endpoint
- - One user
+# Demo Voting application
+ - A webservice with websockets
+ - Voters can vote on proposals in real time
 ???
 Let's set the scene.
 
