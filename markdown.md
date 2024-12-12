@@ -16,12 +16,8 @@ We introduce a simple voting scenario: we have proposals, and we increment a vot
 - When multiple users vote at the same time, we want to ensure that the final vote count is correct
 - We want the user to see the real count as it is updated
 ---
-class: center, middle
 
 # The Code Example
-???
-We will look at the code for the application.
----
 
 ```java
 public class Proposal {
@@ -50,11 +46,6 @@ class: center, middle
 - Multiple threads may call `incrementVoteCount()` at the same time.
 - If both read the same `voteCount` before incrementing, one increment can overwrite the other.
 - Result: lost votes.
-
----
-class: center, middle
-
-# The Test Revealing the Issue
 
 ---
 
