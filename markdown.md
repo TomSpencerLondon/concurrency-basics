@@ -5,7 +5,7 @@ class: center, middle
 ???
 Debugging concurrency in simple applications can help us understand this topic before we meet these issues in production.
 ---
-class: middle
+class: center, middle
 
 # Simple Voting Service
 
@@ -16,13 +16,13 @@ We introduce a simple voting scenario: we have proposals, and we increment a vot
 - When multiple users vote at the same time, we want to ensure that the final vote count is correct
 - We want the user to see the real count as it is updated
 ---
-class: middle
+class: center, middle
 
 # The Code Example
 ???
 We will look at the code for the application.
 ---
-class: middle
+class: center, middle
 
 # Proposal class before synchronization.
 
@@ -58,7 +58,7 @@ public class Proposal {
 ```
 
 ---
-class: middle
+class: center, middle
 
 # The Problem
 
@@ -70,12 +70,12 @@ class: middle
 - Result: lost votes.
 
 ---
-class: middle
+class: center, middle
 
 # The Test Revealing the Issue
 
 ---
-class: middle
+class: center, middle
 
 # Concurrent Test reveals the issue
 - We save the logs to
@@ -104,7 +104,7 @@ public void testConcurrentVoting() throws InterruptedException {
 }
 ```
 ---
-class: middle
+class: center, middle
 
 # Failing Test
 ```bash
@@ -113,7 +113,7 @@ Expected :1000
 Actual   :985
 ```
 --- 
-class: middle
+class: center, middle
 
 # Thread output
 ```bash
@@ -125,14 +125,14 @@ class: middle
 11:47:09.730 [pool-1-thread-30] INFO com.example.demo.Proposal -- Before count: 8 After count: 9
 ```
 ---
-class: middle
+class: center, middle
 
 # Detect duplicate counts
 - Parse each log line to find the Before count: X and After count: Y.
 - Keep track of which After values have been seen and on which line they occurred.
 - If we see the same After value more than once, print out those lines as suspicious.
 ---
-class: middle
+class: center, middle
 
 # Race Condition Detector Code
 ```java
@@ -172,7 +172,7 @@ public class RaceConditionDetector {
 }
 ```
 ---
-class: middle
+class: center, middle
 
 # Output for Race Condition Detector
 ```bash
@@ -184,7 +184,7 @@ Suspicious duplicate After count: 213
  - 11:47:10.002 [pool-1-thread-9] INFO com.example.demo.Proposal -- Before count: 212 After count: 213
 ```
 ---
-class: middle
+class: center, middle
 
 # Making it Thread-Safe
 
@@ -201,7 +201,7 @@ public synchronized void incrementVoteCount() {
 By marking the method as `synchronized`, we ensure that only one thread can increment the count at a time, preventing lost updates.
 
 ---
-class: middle
+class: center, middle
 
 # Visualizing Concurrency
 
@@ -214,7 +214,7 @@ class: middle
 ???
 Multiple threads can now interleave their operations.
 ---
-class: middle
+class: center, middle
 
 # Key Takeaways
 - Even a simple increment can cause race conditions when multiple threads are involved.
