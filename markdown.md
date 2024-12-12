@@ -66,8 +66,8 @@ It's hard for you, simply because you haven't done it before. In fact, very few 
 ---
 
 class: center, middle
-# Concurrency is challenging
-## But it doesn't have to be
+# Concurrency
+## Understanding the basics before production
 
 ???
 
