@@ -61,26 +61,28 @@ class: center, middle
 # Concurrent Test reveals the issue
 
 ```java
-@Test
-public void testConcurrentVoting() throws InterruptedException {
-    Proposal proposal = proposalService.proposals().get(0);
-    ExecutorService executorService = Executors.newFixedThreadPool(100);
+public class ProposalServiceTest {
+    @Test
+    public void testConcurrentVoting() throws InterruptedException {
+        Proposal proposal = proposalService.proposals().get(0);
+        ExecutorService executorService = Executors.newFixedThreadPool(100);
 
-    int numberOfVotes = 1000;
-    Vote vote = new Vote();
-    vote.setProposalId(proposal.getId());
+        int numberOfVotes = 1000;
+        Vote vote = new Vote();
+        vote.setProposalId(proposal.getId());
 
-    for (int i = 0; i < numberOfVotes; i++) {
-        executorService.submit(() -> {
-            proposalService.addVote(vote);
-        });
+        for (int i = 0; i < numberOfVotes; i++) {
+            executorService.submit(() -> {
+                proposalService.addVote(vote);
+            });
+        }
+
+        executorService.shutdown();
+        executorService.awaitTermination(10, TimeUnit.SECONDS);
+
+        assertEquals(numberOfVotes, proposal.getVoteCount(),
+                "Votes should be " + numberOfVotes + " after concurrent voting");
     }
-
-    executorService.shutdown();
-    executorService.awaitTermination(10, TimeUnit.SECONDS);
-
-    assertEquals(numberOfVotes, proposal.getVoteCount(),
-                 "Votes should be " + numberOfVotes + " after concurrent voting");
 }
 ```
 ---
