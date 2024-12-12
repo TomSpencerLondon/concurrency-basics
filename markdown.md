@@ -170,9 +170,7 @@ class: center, middle
 - Simple increment with threads can cause race conditions
 - Synchronization ensures atomic operations on shared mutable state
 ---
-
 class: center, middle
 
-# Thank you!
-## Questions?
+# Questions?
 ### https://tomspencerlondon.github.io/debugging-concurrency/
