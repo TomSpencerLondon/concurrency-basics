@@ -198,6 +198,14 @@ Advantage:
 - atomic operation
 - no explicit locks required
 ---
+<div class="side-by-side" style="display: flex;justify-content: space-evenly;">
+<div style="display: flex;flex-direction: column;align-items: center;">
+<h2>Compare and Swap</h2>
+<img alt="compare-and-swap" src="https://github.com/user-attachments/assets/17eeb7b2-301d-458b-af65-1e1808add765" width="500">
+
+</div>
+</div>
+---
 class: center, middle
 
 # Other Concurrency Solutions
