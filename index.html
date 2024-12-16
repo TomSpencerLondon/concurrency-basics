@@ -11,14 +11,26 @@
 
       .logo-container {
         position: fixed;
-        top: 20px;
-        right: 20px;
+        top: 2rem;
+        right: 15%;
         z-index: 1000;
       }
       
       .logo-container img {
-        height: 40px;
+        height: 2.5rem;
         width: auto;
+      }
+
+      /* Mobile responsiveness */
+      @media screen and (max-width: 768px) {
+        .logo-container {
+          top: 1rem;
+          right: 1rem;
+        }
+        
+        .logo-container img {
+          height: 2rem;
+        }
       }
 
       body { font-family: 'Droid Serif'; }
