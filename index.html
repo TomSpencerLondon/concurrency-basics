@@ -75,7 +75,12 @@ class: center, middle
     <script src="https://remarkjs.com/downloads/remark-latest.min.js">
     </script>
     <script>
-      var slideshow = remark.create();
+      var slideshow = remark.create(
+        {
+          sourceUrl: 'markdown.md',
+          ratio: '16:9'
+        }
+      );
       // Add logo to each slide
       slideshow.on('afterShowSlide', function (slide) {
         var slides = document.querySelectorAll('.remark-slide-content');
