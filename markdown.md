@@ -16,6 +16,14 @@ We introduce a simple voting scenario: we have proposals, and we increment a vot
 - When multiple users vote at the same time, we want to ensure that the final vote count is correct
 - We want the user to see the real count as it is updated
 ---
+<div class="side-by-side" style="display: flex;justify-content: space-evenly;">
+<div style="display: flex;flex-direction: column;align-items: center;">
+<h2>Voting on Different Browsers</h2>
+<img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418" width="700">
+</div>
+</div>
+???
+---
 
 # The Code Example
 
@@ -226,14 +234,7 @@ class: center, middle
 Share nothing, horizontally partition 12 factor app processes
 
 ---
-<div class="side-by-side" style="display: flex;justify-content: space-evenly;">
-<div style="display: flex;flex-direction: column;align-items: center;">
-<h2>Visualizing Concurrency</h2>
-<img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418" width="700">
-</div>
-</div>
-???
----
+
 class: center, middle
 
 # Key Takeaways
