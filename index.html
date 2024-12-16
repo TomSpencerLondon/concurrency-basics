@@ -9,6 +9,18 @@
       @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
       @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
+      .logo-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      
+      .logo-container img {
+        height: 40px;
+        width: auto;
+      }
+
       body { font-family: 'Droid Serif'; }
       h1, h2, h3 {
         font-family: 'Yanone Kaffeesatz';
@@ -29,6 +41,9 @@
     </style>
   </head>
   <body>
+    <div class="logo-container">
+      <img src="https://www.capgemini.com/wp-content/themes/capgemini2020/assets/images/logo.svg" alt="Capgemini Logo">
+    </div>
     <textarea id="source">
 
 class: center, middle
