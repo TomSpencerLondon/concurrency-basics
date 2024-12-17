@@ -192,8 +192,8 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
 <h2>Thread States</h2>
+<img alt="thread-states" src="https://github.com/user-attachments/assets/bb79fb0b-2cc3-449e-9c2f-caec89abc5c2" width="500">
 
-<img width="736" alt="thread-states" src="https://github.com/user-attachments/assets/bb79fb0b-2cc3-449e-9c2f-caec89abc5c2" width="500">
 </div>
 </div>
 ---
