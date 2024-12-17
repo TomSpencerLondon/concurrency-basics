@@ -1,4 +1,4 @@
-# debugging-concurrency
+# Concurrency Basics
 
 This point is key:
 As soon as you scale your system or have several servers running you can no longer store state between them if that
