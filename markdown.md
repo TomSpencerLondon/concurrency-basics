@@ -1,9 +1,9 @@
 class: center, middle
 
-# Debugging Concurrency
+# Concurrency Basics
 
 ???
-Debugging concurrency in simple applications can help us understand this topic before we meet these issues in production.
+Understanding concurrency in simple applications can help us understand this topic before we meet these issues in production.
 ---
 class: center, middle
 
@@ -178,6 +178,24 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 - Bad because two CPU cores would execute these in parallel
 - CPU 1 do add not do put
 - CPU 2 do get operation on the same memory address
+
+---
+<div class="side-by-side" style="display: flex;justify-content: space-evenly;">
+<div style="display: flex;flex-direction: column;align-items: center;">
+<h2>Scheduler</h2>
+<img alt="scheduler" src="https://github.com/user-attachments/assets/6db75c8a-ae35-4b3b-a293-85a2756e68af" width="500">
+
+</div>
+</div>
+---
+
+<div class="side-by-side" style="display: flex;justify-content: space-evenly;">
+<div style="display: flex;flex-direction: column;align-items: center;">
+<h2>Thread States</h2>
+
+<img width="736" alt="thread-states" src="https://github.com/user-attachments/assets/bb79fb0b-2cc3-449e-9c2f-caec89abc5c2" width="500">
+</div>
+</div>
 ---
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
@@ -246,4 +264,4 @@ class: center, middle
 class: center, middle
 
 # Questions?
-### https://tomspencerlondon.github.io/debugging-concurrency/
+### https://tomspencerlondon.github.io/concurrency-basics/
