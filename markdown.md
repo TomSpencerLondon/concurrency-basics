@@ -1,20 +1,10 @@
 class: center, middle
 
-# Concurrency Basics
-
-???
-Understanding concurrency in simple applications can help us understand this topic before we meet these issues in production.
----
-class: center, middle
-
 # Simple Voting Service
 
 ???
-We introduce a simple voting scenario: we have proposals, and we increment a vote count each time someone votes.
-
-- simple web service that allows users to vote on proposals.
-- When multiple users vote at the same time, we want to ensure that the final vote count is correct
-- We want the user to see the real count as it is updated
+Hello everyone! Today, we’ll explore a real-world concurrency problem through a simple Voting Service. 
+Understanding concurrency early is crucial because race conditions and thread safety issues can sneak into production code unexpectedly.
 ---
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
@@ -22,7 +12,14 @@ We introduce a simple voting scenario: we have proposals, and we increment a vot
 <img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418" width="700">
 </div>
 </div>
+### https://github.com/TomSpencerLondon/websockets
 ???
+We have a web service where users vote for proposals. For example:
+
+Users submit votes.
+The server increments the voteCount.
+We expect the final count to reflect all votes accurately, but something goes wrong.
+Here’s what users see across browsers. The vote count seems inconsistent. Why is this happening?
 ---
 
 # The Code Example
@@ -42,18 +39,35 @@ public class Proposal {
     }
 }
 ```
-
+???
+The incrementVoteCount() method looks simple.
+But what happens if two threads execute this at the same time?
 ---
 class: center, middle
 
 # The Problem
 
 ???
-# Race condition problem
+When multiple threads access voteCount simultaneously:
 
-- Multiple threads may call `incrementVoteCount()` at the same time.
-- If both read the same `voteCount` before incrementing, one increment can overwrite the other.
-- Result: lost votes.
+Both threads read the same value.
+They increment separately.
+One increment overwrites the other.
+Result: Lost votes!
+---
+# Primitive Bytecode
+```byte
+    GETFIELD com/example/demo/Proposal.voteCount : I
+    ICONST_1
+    IADD
+    PUTFIELD com/example/demo/Proposal.voteCount : I
+```
+???
+The increment operation consists of **three separate steps**: get, add, and put. 
+This is problematic because two CPU cores can execute these operations **in parallel**. 
+For example, **CPU 1** might perform the "add" operation but not complete the "put," 
+while **CPU 2** simultaneously executes the "get" operation on the same memory address. 
+As a result, one update can overwrite the other, leading to inconsistencies.
 
 ---
 
@@ -82,6 +96,10 @@ public class ProposalServiceTest {
     }
 }
 ```
+
+???
+Our test confirms the issue: Expected 1000 votes, but only 985 are recorded. 
+Duplicate logs also reveal suspicious counts, where two threads update the same value simultaneously.
 ---
 
 # Failing Test
@@ -95,60 +113,17 @@ Actual   :985
 
 # Thread output
 ```bash
-11:47:09.730 [pool-1-thread-60] INFO com.example.demo.Proposal 
--- Before count: 2 After count: 3
-11:47:09.730 [pool-1-thread-31] INFO com.example.demo.Proposal 
--- Before count: 97 After count: 98
-11:47:09.730 [pool-1-thread-43] INFO com.example.demo.Proposal 
--- Before count: 47 After count: 48
-11:47:09.730 [pool-1-thread-70] INFO com.example.demo.Proposal 
--- Before count: 71 After count: 72
-11:47:09.730 [pool-1-thread-50] INFO com.example.demo.Proposal 
--- Before count: 83 After count: 84
-11:47:09.730 [pool-1-thread-30] INFO com.example.demo.Proposal 
--- Before count: 8 After count: 9
-```
----
-class: center, middle
-
-# Detect duplicate counts
-???
-* Parse each log line to find the Before count: X and After count: Y
-* Keep track of which "After" values have been seen + line occurred
-* Same "After" value more than once ==> print suspicious lines
----
-
-# Race Condition Detector Code
-```java
-public class RaceConditionDetector {
-    public static void main(String[] args) throws Exception {
-        for (Map.Entry<Integer, List<String>> entry : afterLinesMap.entrySet()) {
-            if (entry.getValue().size() > 1) {
-                System.out.println("Suspicious duplicate After count: " + entry.getKey());
-                for (String suspiciousLine : entry.getValue()) {
-                    System.out.println(" - " + suspiciousLine);
-                }
-            }
-        }
-    }
-}
-```
----
-class: center, middle
-
-# Output for Race Condition Detector
-```bash
 Suspicious duplicate After count: 80
-11:47:09.730 [pool-1-thread-89] INFO com.example.demo.Proposal 
- -- Before count: 79 After count: 80
-11:47:09.730 [pool-1-thread-74] INFO com.example.demo.Proposal 
--- Before count: 79 After count: 80
+ - 11:47:09.730 [pool-1-thread-89] INFO com.example.demo.Proposal -- Before count: 79 After count: 80
+ - 11:47:09.730 [pool-1-thread-74] INFO com.example.demo.Proposal -- Before count: 79 After count: 80
 Suspicious duplicate After count: 213
-11:47:10.002 [pool-1-thread-60] INFO com.example.demo.Proposal 
--- Before count: 212 After count: 213
-11:47:10.002 [pool-1-thread-9] INFO com.example.demo.Proposal 
--- Before count: 212 After count: 213
+ - 11:47:10.002 [pool-1-thread-60] INFO com.example.demo.Proposal -- Before count: 212 After count: 213
+ - 11:47:10.002 [pool-1-thread-9] INFO com.example.demo.Proposal -- Before count: 212 After count: 213
 ```
+???
+To detect race conditions, we **parse each log line** to extract the "Before count: X" and "After count: Y" values. 
+We then **keep track** of all the "After" values along with the lines where they occurred. 
+If the **same "After" value** appears more than once, we print those lines as **suspicious** to highlight potential issues.
 ---
 
 # Making it Thread-Safe
@@ -163,22 +138,8 @@ public synchronized void incrementVoteCount() {
 }
 ```
 ???
-By marking the method as `synchronized`, we ensure that only one thread can increment the count at a time, preventing lost updates.
-
----
-# Primitive Bytecode
-```byte
-    GETFIELD com/example/demo/Proposal.voteCount : I
-    ICONST_1
-    IADD
-    PUTFIELD com/example/demo/Proposal.voteCount : I
-```
-???
-- Three separate operations get, add and put
-- Bad because two CPU cores would execute these in parallel
-- CPU 1 do add not do put
-- CPU 2 do get operation on the same memory address
-
+How It Works
+"synchronized ensures only one thread can access incrementVoteCount() at a time."
 ---
 
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
@@ -188,6 +149,18 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 
 </div>
 </div>
+???
+Let’s talk about how threads are managed in a program.
+
+At the top, we have a Java process. A process is a running instance of a program, and within it, we have threads. 
+Threads are lightweight units of execution that share the same memory.
+
+When multiple threads are running, the OS Thread Scheduler decides which thread gets access to the CPU at any given moment.
+
+Shared Memory: All threads within the process can access the same variables and data structures.
+Thread Execution: The OS scheduler maps these threads to different CPU cores. For example, Thread 1 may execute on CPU 1, while Thread 2 executes on CPU 2.
+The scheduler plays a crucial role in ensuring fairness and efficiency when multiple threads compete for CPU time. 
+This is why thread management and scheduling are so important for performance and avoiding conflicts.
 ---
 
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
@@ -197,6 +170,16 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 
 </div>
 </div>
+???
+Now, let’s look at the lifecycle of a thread. A thread can be in one of six states:
+
+NEW: The thread is created but hasn’t started running yet.
+RUNNABLE: The thread is ready to run or actively executing on the CPU.
+BLOCKED: The thread is waiting for a monitor lock to access a resource. This usually happens when another thread holds the lock.
+WAITING: The thread is waiting indefinitely for another thread to notify it. For example, it might be waiting for a signal.
+TIMED_WAITING: Similar to WAITING, but with a time limit. For instance, a thread is sleeping for a specific period using methods like sleep() or wait(timeout).
+TERMINATED: The thread has finished executing or has been stopped.
+Understanding thread states helps us debug and manage thread behavior. For example, if a thread is stuck in a BLOCKED or WAITING state, it might indicate a resource contention problem.
 ---
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
@@ -207,23 +190,18 @@ By marking the method as `synchronized`, we ensure that only one thread can incr
 </div>
 
 ???
-Thread-Safety
-AtomicInteger: The incrementAndGet() method in AtomicInteger is implemented using atomic hardware-level instructions 
-such as Compare-And-Swap (CAS). 
-These ensure that the increment operation is performed as an atomic unit even in a 
-multi-threaded environment.
+The **Compare-And-Swap (CAS)** mechanism ensures **thread safety** by performing atomic updates without using explicit locks.
 
-Mechanism:
-The incrementAndGet() method in Java's AtomicInteger is implemented using CAS under the hood.
-- **Atomic Operation**: CAS (Compare-And-Swap) is a hardware-level atomic instruction that ensures thread-safe updates to a shared variable without using locks.
+Here’s how it works:
+1. CAS compares the **current value** of a variable to an **expected value**.
+2. If the two values match, the variable is **swapped** with a **new value**.
+3. If they don’t match, the operation fails, and the old value is retained.
 
-- **Mechanism**: CAS compares the current value of a variable with an expected value; if they match, it updates the variable to a new value atomically. Otherwise, no change is made.
+In Java, `AtomicInteger` uses CAS to implement methods like `incrementAndGet()`. 
+This allows the increment operation to be performed **atomically**, even in a multi-threaded environment, without locks.
+The advantage of CAS is that it avoids the overhead of locks while ensuring safe, non-blocking updates. 
+This makes it ideal for high-performance, thread-safe operations in concurrent systems.
 
-- **Use Case**: CAS is the foundation of non-blocking algorithms and is widely used in Java classes like `AtomicInteger` for thread-safe operations without locks.
-
-Advantage:
-- atomic operation
-- no explicit locks required
 ---
 <div class="side-by-side" style="display: flex;justify-content: space-evenly;">
 <div style="display: flex;flex-direction: column;align-items: center;">
@@ -232,15 +210,36 @@ Advantage:
 
 </div>
 </div>
----
-class: center, middle
-
-# Other Concurrency Solutions
-
 ???
-- AtomicInteger - variable ++ compiles to get memory  
-- Synchronized
-- Cyclic Barriers
+**Script for Slide: Compare and Swap Efficiency**
+
+"In this slide, we compare two approaches to managing shared resources: one using **locks** and the other using **Compare-And-Swap (CAS)** for atomic operations.
+
+---
+
+### **Top Diagram: Lock-Based Approach**
+- Here, **Thread 1** attempts to access the shared data structure but is **blocked** because another thread holds the lock.
+- While Thread 1 is blocked, it **wastes time** waiting for the lock to be released.
+- The operating system or Java Virtual Machine (JVM) scheduler has to manage this waiting thread, which adds overhead and reduces efficiency.
+
+This approach is expensive because switching between threads (context switching) and waiting for locks consumes CPU resources unnecessarily.
+
+---
+
+### **Bottom Diagram: CAS-Based Approach**
+- In the bottom diagram, CAS is used for atomic operations, which are provided directly by the **hardware**.
+- Here, **Thread 1** performs the operation without being blocked. Instead of waiting, CAS repeatedly checks and updates the shared variable in a non-blocking manner.
+- This eliminates the need for **locks** and avoids expensive thread blocking or waiting states.
+
+---
+
+### **Why CAS Is More Efficient**
+- **No Blocking**: Threads don’t get stuck waiting for locks, avoiding wasted time.
+- **Fewer Context Switches**: The scheduler doesn’t need to pause and resume threads as often, saving CPU cycles.
+- **Hardware Optimization**: CAS leverages atomic hardware instructions, making operations much faster.
+
+In summary, CAS-based atomic operations are far more efficient because they remove the bottleneck of blocking threads and scheduler overhead, resulting in better performance for multi-threaded applications."
+
 ---
 class: center, middle
 
@@ -259,10 +258,15 @@ class: center, middle
 # Key Takeaways
 
 ???
-- Simple increment with threads can cause race conditions
-- Synchronization ensures atomic operations on shared mutable state
+### Key Takeaways (1 minute)
+Race conditions can occur in simple operations like voteCount++.
+Use synchronized or atomic classes (AtomicInteger) to ensure thread safety.
+Concurrency must be reliable and efficient in modern applications.
 ---
 class: center, middle
 
 # Questions?
 ### https://tomspencerlondon.github.io/concurrency-basics/
+???
+Thank you for your time! Concurrency is challenging, but understanding the basics helps you prevent these issues early. 
+I’ll now take any questions.
