@@ -240,11 +240,8 @@ In summary, CAS-based atomic operations are far more efficient because they remo
 class: center, middle
 
 # 12 Factor App
-
+### https://12factor.net/
 ???
-Here’s an improved description of the **12-Factor App principles** relevant to this scenario:
-
----
 
 ### **12-Factor App Principles for Reliable Concurrency**
 
@@ -257,8 +254,6 @@ Here’s an improved description of the **12-Factor App principles** relevant to
 3. **VII. Concurrency**:  
    Processes should scale **horizontally** by running multiple instances that do not share state. This can be achieved by partitioning workloads across processes to prevent contention. For example, the vote-counting process can be **horizontally partitioned** so that each instance handles a specific subset of votes independently, avoiding race conditions.
 
----
-
 ### **Why It Matters**
 By adhering to these principles:
 - We avoid **shared state** across threads or processes.
@@ -267,9 +262,6 @@ By adhering to these principles:
 
 This approach aligns with the **12-Factor App** methodology, making the system robust, scalable, and ready for modern cloud environments.
 
---- 
-
-Let me know if you'd like further refinements or additional examples!
 ---
 
 class: center, middle
