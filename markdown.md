@@ -6,13 +6,13 @@ class: center, middle
 Hello everyone! Today, we’ll explore a real-world concurrency problem through a simple Voting Service. 
 Understanding concurrency early is crucial because race conditions and thread safety issues can sneak into production code unexpectedly.
 ---
-<div class="side-by-side" style="display: flex;justify-content: space-evenly;">
-    <div style="display: flex;flex-direction: column;align-items: center;">
-        <h2>Voting on Different Browsers</h2>
-        <img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418" width="700">
-            <a href="https://github.com/TomSpencerLondon/websockets" target="_blank">
-                https://github.com/TomSpencerLondon/websockets
-            </a>
+<div class="side-by-side" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+    <h2>Voting on Different Browsers</h2>
+    <img src="https://github.com/user-attachments/assets/57972ea6-3e84-4d3e-8612-5da9a1006418" width="700">
+    <div style="margin-top: 20px; text-align: center;">
+        <a href="https://github.com/TomSpencerLondon/websockets" target="_blank" style="font-size: 18px; color: #007bff; text-decoration: none;">
+            https://github.com/TomSpencerLondon/websockets
+        </a>
     </div>
 </div>
 
