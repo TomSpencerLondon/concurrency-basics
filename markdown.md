@@ -211,11 +211,8 @@ This makes it ideal for high-performance, thread-safe operations in concurrent s
 </div>
 </div>
 ???
-**Script for Slide: Compare and Swap Efficiency**
 
-"In this slide, we compare two approaches to managing shared resources: one using **locks** and the other using **Compare-And-Swap (CAS)** for atomic operations.
-
----
+In this slide, we compare two approaches to managing shared resources: one using **locks** and the other using **Compare-And-Swap (CAS)** for atomic operations.
 
 ### **Top Diagram: Lock-Based Approach**
 - Here, **Thread 1** attempts to access the shared data structure but is **blocked** because another thread holds the lock.
@@ -224,21 +221,17 @@ This makes it ideal for high-performance, thread-safe operations in concurrent s
 
 This approach is expensive because switching between threads (context switching) and waiting for locks consumes CPU resources unnecessarily.
 
----
-
 ### **Bottom Diagram: CAS-Based Approach**
 - In the bottom diagram, CAS is used for atomic operations, which are provided directly by the **hardware**.
 - Here, **Thread 1** performs the operation without being blocked. Instead of waiting, CAS repeatedly checks and updates the shared variable in a non-blocking manner.
 - This eliminates the need for **locks** and avoids expensive thread blocking or waiting states.
-
----
 
 ### **Why CAS Is More Efficient**
 - **No Blocking**: Threads don’t get stuck waiting for locks, avoiding wasted time.
 - **Fewer Context Switches**: The scheduler doesn’t need to pause and resume threads as often, saving CPU cycles.
 - **Hardware Optimization**: CAS leverages atomic hardware instructions, making operations much faster.
 
-In summary, CAS-based atomic operations are far more efficient because they remove the bottleneck of blocking threads and scheduler overhead, resulting in better performance for multi-threaded applications."
+In summary, CAS-based atomic operations are far more efficient because they remove the bottleneck of blocking threads and scheduler overhead, resulting in better performance for multi-threaded applications.
 
 ---
 class: center, middle
@@ -246,11 +239,34 @@ class: center, middle
 # 12 Factor App
 
 ???
-- IV Backing Services (I should be counting the votes in a database)
-- VI Processes should be stateless
-- VII Concurrency should be reliable
-Share nothing, horizontally partition 12 factor app processes
+Here’s an improved description of the **12-Factor App principles** relevant to this scenario:
 
+---
+
+### **12-Factor App Principles for Reliable Concurrency**
+
+1. **IV. Backing Services**:  
+   Treat backing services, such as databases, message queues, or caches, as **attached resources**. In our case, the **vote count** should not rely on in-memory storage, which is prone to race conditions and data loss. Instead, votes should be **persisted in a database** or external backing service to ensure reliability and consistency.
+
+2. **VI. Stateless Processes**:  
+   Design processes to be **stateless** and **share nothing**. A stateless process does not store any state (e.g., vote counts) in its memory. Instead, all state should be managed by backing services, such as a database or external storage. Stateless processes can scale horizontally without conflicts, ensuring scalability and reliability.
+
+3. **VII. Concurrency**:  
+   Processes should scale **horizontally** by running multiple instances that do not share state. This can be achieved by partitioning workloads across processes to prevent contention. For example, the vote-counting process can be **horizontally partitioned** so that each instance handles a specific subset of votes independently, avoiding race conditions.
+
+---
+
+### **Why It Matters**
+By adhering to these principles:
+- We avoid **shared state** across threads or processes.
+- Votes are consistently counted in a **backing service** like a database.
+- Processes are **stateless** and can scale horizontally, ensuring that concurrency is reliable and efficient.
+
+This approach aligns with the **12-Factor App** methodology, making the system robust, scalable, and ready for modern cloud environments.
+
+--- 
+
+Let me know if you'd like further refinements or additional examples!
 ---
 
 class: center, middle
